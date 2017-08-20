@@ -18,18 +18,6 @@ It uses android architecture components (Live data, View model and Room) with Rx
   
   **base** and **feature** packages are divided into four standard packages (data, presentation, usecases and entities).
   
-  When adding a new feature, create a new feature package with above four standard packages.   
-  When adding a new class, refer to the following table to place it into the right package.
-        
-
-| Clean Architecture layer | Corresponding Project package name|
-| :---         |     :---:      |         
-| Entities (innermost layer)   | entities      | 
-| UseCases     | usecases        | 
-| Controllers, Gateways and Presenters     | presentation        | 
-| UI, DB, Devices etc (outermost layer)     | presentation -> UI;    data -> DB related, API related;        | 
-
-  
 As your code grows, you can move **base package** to a separate library module and
 each **feature** to a separate feature module. And you can reuse the features across your multiple android apps.
       
