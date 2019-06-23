@@ -5,7 +5,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.cleanarch"
         minSdkVersion 21
@@ -16,57 +15,59 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    compile "com.android.support:appcompat-v7:$support_version"
-    compile "com.android.support:design:$support_version"
-    compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
-    compile "android.arch.lifecycle:runtime:$arch_version"
-    compile "android.arch.lifecycle:extensions:$arch_version"
-    compile "android.arch.lifecycle:reactivestreams:$arch_version"
-    compile "android.arch.persistence.room:runtime:$arch_version"
-    compile "android.arch.persistence.room:rxjava2:$arch_version"
+    implementation "android.arch.lifecycle:runtime:$arch_version"
+    implementation "android.arch.lifecycle:extensions:$arch_version"
+    implementation "android.arch.lifecycle:reactivestreams:$arch_version"
+    implementation "android.arch.persistence.room:runtime:$arch_version"
+    implementation "android.arch.persistence.room:rxjava2:$arch_version"
     kapt "android.arch.lifecycle:compiler:$arch_version"
-    kapt "android.arch.persistence.room:compiler:$arch_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
 
-    compile "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
-    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
-    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
 
-    testCompile "junit:junit:$junit_version"
-    testCompile("android.arch.core:core-testing:$arch_version", {
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+
+    testImplementation  "junit:junit:$junit_version"
+    testImplementation ("android.arch.core:core-testing:$arch_version", {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
     })
-    androidTestCompile "com.android.support:appcompat-v7:$support_version"
-    androidTestCompile "com.android.support:design:$support_version"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_version", {
+    androidTestImplementation  "com.android.support:appcompat-v7:$support_version"
+    androidTestImplementation  "com.android.support:design:$support_version"
+    androidTestImplementation ("com.android.support.test.espresso:espresso-core:$espresso_version", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
-    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espresso_version", {
+    androidTestImplementation ("com.android.support.test.espresso:espresso-contrib:$espresso_version", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
-    androidTestCompile("android.arch.core:core-testing:$arch_version", {
+    androidTestImplementation ("android.arch.core:core-testing:$arch_version", {
     })
-    androidTestCompile "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation  "org.mockito:mockito-android:$mockito_version"
 
 }
