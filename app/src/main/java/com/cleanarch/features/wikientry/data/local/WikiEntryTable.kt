@@ -1,7 +1,7 @@
 package com.cleanarch.features.wikientry.data.local
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 /*
  * Copyright (C) 2017 Naresh Gowd Idiga

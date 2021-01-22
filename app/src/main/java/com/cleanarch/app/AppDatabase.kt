@@ -1,7 +1,7 @@
 package com.cleanarch.app
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.cleanarch.features.wikientry.data.local.WikiEntryDao
 import com.cleanarch.features.wikientry.data.local.WikiEntryTable
 

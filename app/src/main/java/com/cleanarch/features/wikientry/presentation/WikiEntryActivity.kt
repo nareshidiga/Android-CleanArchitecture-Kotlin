@@ -1,18 +1,17 @@
 package com.cleanarch.features.wikientry.presentation
 
 
-import android.arch.lifecycle.LifecycleActivity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.cleanarch.R
 import com.cleanarch.app.CleanArchApp
 import com.cleanarch.features.wikientry.entities.WikiEntry
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 /*
@@ -31,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * limitations under the License.
  */
 
-class WikiEntryActivity : LifecycleActivity() {
+class WikiEntryActivity : AppCompatActivity() {
 
     private val TAG = WikiEntryActivity::class.java.simpleName
     private lateinit var  wikiEntryViewModel: WikiEntryViewModel
@@ -65,6 +64,8 @@ class WikiEntryActivity : LifecycleActivity() {
 
         // WikiEntry feature component scope ends here
         (application as CleanArchApp).releaseWikiEntryComponent()
+        if(true){System.out.println("hello no more")}
+        if (true){}
     }
 
     private val submitButtonOnClickListener = View.OnClickListener { v ->
