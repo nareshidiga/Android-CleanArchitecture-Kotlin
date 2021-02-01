@@ -40,10 +40,12 @@ class CleanArchApp : Application() {
 
 
     fun buildWikiEntryComponent(): WikiEntryComponent {
-        wikiEntryComponent = DaggerWikiEntryComponent.builder()
-                .appComponent(appComponent)
-                .wikiEntryModule(WikiEntryModule())
-                .build()
+        if (wikiEntryComponent == null) {
+            wikiEntryComponent = DaggerWikiEntryComponent.builder()
+                    .appComponent(appComponent)
+                    .wikiEntryModule(WikiEntryModule())
+                    .build()
+        }
         return wikiEntryComponent!!
     }
 

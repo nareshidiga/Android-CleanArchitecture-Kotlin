@@ -64,8 +64,6 @@ class WikiEntryActivity : AppCompatActivity() {
 
         // WikiEntry feature component scope ends here
         (application as CleanArchApp).releaseWikiEntryComponent()
-        if(true){System.out.println("hello no more")}
-        if (true){}
     }
 
     private val submitButtonOnClickListener = View.OnClickListener { v ->
