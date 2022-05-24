@@ -31,12 +31,10 @@ internal constructor(private val repo: WikiEntryRepo) : UseCase<GetWikiEntryUseC
     override fun execute(input: Input, subscriber: DisposableSubscriber<WikiEntry>) {
 
         Flowable.just(input.title)
-                .flatMap<WikiEntry> { title -> repo.getWikiEntry(title) }
+                .flatMap { title -> repo.getWikiEntry(title) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(input.observerOnScheduler)
                 .subscribe(subscriber)
-
-        Log.d(TAG, "called subscribe on getWikiEntry flowable")
 
         disposables.add(subscriber)
     }
