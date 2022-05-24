@@ -38,7 +38,7 @@ class WikiEntryViewModel(application: Application) : AndroidViewModel(applicatio
     lateinit var getWikiEntryUseCase: Lazy<GetWikiEntryUseCase>
 
     init {
-        (application as CleanArchApp).wikiEntryComponent!!.inject(this)
+        (application as CleanArchApp).wikiEntryComponent?.inject(this)
         wikiEntry = MutableLiveData<WikiEntry>()
     }
 

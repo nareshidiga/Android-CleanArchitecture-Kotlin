@@ -20,11 +20,9 @@ import androidx.room.PrimaryKey
  */
 
 @Entity
-class WikiEntryTable {
-
+class WikiEntryTable(
     @PrimaryKey
-    var pageId: Int = 0
-    var title: String? = null
-    var extract: String? = null
-
-}
+    val pageId: Int,
+    val title: String,
+    val extract: String
+)

@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.cleanarch.R
 import com.cleanarch.app.CleanArchApp
+import com.cleanarch.databinding.ActivityMainBinding
 import com.cleanarch.features.wikientry.entities.WikiEntry
-import kotlinx.android.synthetic.main.activity_main.*
 
 /*
  * Copyright (C) 2017 Naresh Gowd Idiga
@@ -34,6 +35,7 @@ class WikiEntryActivity : AppCompatActivity() {
 
     private val TAG = WikiEntryActivity::class.java.simpleName
     private lateinit var  wikiEntryViewModel: WikiEntryViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,36 +43,36 @@ class WikiEntryActivity : AppCompatActivity() {
         // WikiEntry feature component scope start here
         (application as CleanArchApp).buildWikiEntryComponent()
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        submitButton.setOnClickListener(submitButtonOnClickListener)
+        binding.submitButton.setOnClickListener(submitButtonOnClickListener)
 
-        wikiEntryViewModel = ViewModelProviders.of(this).get(WikiEntryViewModel::class.java)
+        wikiEntryViewModel = ViewModelProvider(this).get(WikiEntryViewModel::class.java)
         wikiEntryViewModel.getWikiEntry().observe(this, Observer<WikiEntry> { wikiEntry ->
             Log.d(TAG, "received update for wikiEntry")
-            entryDetails.text = wikiEntry!!.extract
-            progressBar.hide()
+            binding.entryDetails.text = wikiEntry?.extract
+            binding.progressBar.hide()
         })
 
         Observer<WikiEntry> {
             wikiEntry: WikiEntry? ->
-            entryDetails.text = wikiEntry!!.extract
-            progressBar.hide()
+            binding.entryDetails.text = wikiEntry?.extract
+            binding.progressBar.hide()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
         // WikiEntry feature component scope ends here
         (application as CleanArchApp).releaseWikiEntryComponent()
     }
 
     private val submitButtonOnClickListener = View.OnClickListener { v ->
-
-        progressBar.show()
-        val imm = this@WikiEntryActivity.baseContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(v.windowToken, 0)
-        wikiEntryViewModel.loadWikiEntry(entryTitle.text.toString())
+        binding.progressBar.show()
+        val inputMethodManager = this@WikiEntryActivity.baseContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(v.windowToken, 0)
+        wikiEntryViewModel.loadWikiEntry(binding.entryTitle.text.toString())
     }
 }

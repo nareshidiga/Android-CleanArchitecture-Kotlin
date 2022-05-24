@@ -29,7 +29,8 @@ import javax.inject.Singleton
 
 @Singleton
 class WikiEntryRepoImpl @Inject
-constructor(private val appDatabase: AppDatabase, private val wikiApiService: WikiApiService) : WikiEntryRepo {
+constructor(private val appDatabase: AppDatabase, private val wikiApiService: WikiApiService) :
+    WikiEntryRepo {
 
     override fun getWikiEntry(title: String): Flowable<WikiEntry> {
 
@@ -47,12 +48,16 @@ constructor(private val appDatabase: AppDatabase, private val wikiApiService: Wi
             if (!wikiEntryTables.isEmpty()) {
                 val firstEntry = wikiEntryTables[0]
                 Log.d(TAG, "Found and sending entry from local")
-                return@Function Flowable.just(WikiEntry(firstEntry.pageId,
-                        firstEntry.title!!, firstEntry.extract!!))
+                return@Function Flowable.just(
+                    WikiEntry(
+                        firstEntry.pageId,
+                        firstEntry.title, firstEntry.extract
+                    )
+                )
             }
 
             Log.d(TAG, "Returning flowable with invalid entry from local")
-            Flowable.empty<WikiEntry>()
+            Flowable.empty()
         })
 
     }
@@ -63,9 +68,8 @@ constructor(private val appDatabase: AppDatabase, private val wikiApiService: Wi
         Log.d(TAG, "fetchFromRemote enter")
         val getRequest = wikiApiService.getWikiEntry(title)
         return getRequest.flatMap { wikiEntryApiResponse ->
-
             Log.d(TAG, "received response from remote")
-            val pageValIterator = wikiEntryApiResponse.query!!.pages!!.values.iterator()
+            val pageValIterator = wikiEntryApiResponse.query?.pages!!.values.iterator()
             val pageVal = pageValIterator.next()
 
             if (invalidResult(pageVal)) {
@@ -82,19 +86,16 @@ constructor(private val appDatabase: AppDatabase, private val wikiApiService: Wi
 
 
     private fun addNewEntryToLocalDB(wikiEntry: WikiEntry) {
-        appDatabase.beginTransaction()
-        try {
-            val newEntry = WikiEntryTable()
-            newEntry.pageId = wikiEntry.pageId
-            newEntry.title = wikiEntry.title
-            newEntry.extract = wikiEntry.extract
-
+        appDatabase.runInTransaction {
+            val newEntry = WikiEntryTable(
+                wikiEntry.pageId,
+                wikiEntry.title,
+                wikiEntry.extract
+            )
             val entryDao = appDatabase.wikiEntryDao()
             entryDao.insert(newEntry)
-            appDatabase.setTransactionSuccessful()
-        } finally {
-            appDatabase.endTransaction()
         }
+
         Log.d(TAG, "added new entry into app database table")
     }
 
@@ -105,8 +106,7 @@ constructor(private val appDatabase: AppDatabase, private val wikiApiService: Wi
     }
 
     companion object {
-
-        private val TAG: String = WikiEntryRepoImpl::class.java.simpleName!!
+        private val TAG: String = WikiEntryRepoImpl::class.java.simpleName
     }
 
 }

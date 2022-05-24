@@ -16,4 +16,4 @@ package com.cleanarch.features.wikientry.entities
  * limitations under the License.
  */
 
-class WikiEntry (val pageId: Int,val title: String,val extract: String)
+class WikiEntry (val pageId: Int, val title: String, val extract: String)
